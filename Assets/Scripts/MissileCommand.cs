@@ -4,6 +4,7 @@ using Graphics;
 using Rx;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Import SceneManager
 using UnityEngine.TextCore;
 using static Rx.RxStatic;
 using static Graphics.GraphicsObjects;
@@ -32,7 +33,8 @@ public class MissileCommand : MonoBehaviour {
     public GameObject Explosion;
     public GameObject BonusPoints;
     public GameObject TheEnd;
-    public float EnemyVelocity = 0.000425f;
+    public TextMeshProUGUI InstructionsText; // Add this field
+    public float EnemyVelocity = 0.0002125f;
     public float PlayerVelocity = 0.015f;
     public float ExplosionVelocity = 0.1f;
     public float Z = -0.2f;
@@ -63,6 +65,9 @@ public class MissileCommand : MonoBehaviour {
         OnKey(center.Key).Throttle(throttleTime).Where(lowerLimt).Sink(center.Launch);
         var right = RightMissileBase.GetComponent<MissileBase>();
         OnKey(right.Key).Throttle(throttleTime).Where(lowerLimt).Sink(right.Launch);
+
+        // Set the instructions text
+        InstructionsText.text = "Instructions:\nQ - Quit\nR - Restart\nA - Fire Left Missile\nS - Fire Center Missile\nD - Fire Right Missile";
     }
 
     public void MissileKilled() {
@@ -115,6 +120,10 @@ public class MissileCommand : MonoBehaviour {
             QuitGame();
         }
 
+        if (Input.GetKeyDown(KeyCode.R)) {
+            RestartGame();
+        }
+
         var totalCount = PlayerMissile.MissileCount + EnemyMissile.MissileCount + ExplosionAnimation.ExplosionCount;
         if (ScoreChanged)
             ShowScore();
@@ -161,5 +170,9 @@ public class MissileCommand : MonoBehaviour {
         #else
         Application.Quit();
         #endif
+    }
+
+    void RestartGame() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -32,11 +32,10 @@ public class MissileCommand : MonoBehaviour {
     public GameObject Explosion;
     public GameObject BonusPoints;
     public GameObject TheEnd;
-    public float EnemyVelocity = 0.0017f;
+    public float EnemyVelocity = 0.000425f;
     public float PlayerVelocity = 0.015f;
     public float ExplosionVelocity = 0.1f;
     public float Z = -0.2f;
-    //public float ExplosionScaleGrow = 5e-6f;
     public float ToLow = -4.2f;
     GameState State = GameState.Starting;
     int Score = 0;
@@ -64,7 +63,6 @@ public class MissileCommand : MonoBehaviour {
         OnKey(center.Key).Throttle(throttleTime).Where(lowerLimt).Sink(center.Launch);
         var right = RightMissileBase.GetComponent<MissileBase>();
         OnKey(right.Key).Throttle(throttleTime).Where(lowerLimt).Sink(right.Launch);
-
     }
 
     public void MissileKilled() {
@@ -92,7 +90,6 @@ public class MissileCommand : MonoBehaviour {
     void ShowScore() {
         ScoreText.SetText("{0}", Score);
         ScoreChanged = false;
-
     }
 
     public void NextLevel() {
@@ -114,6 +111,10 @@ public class MissileCommand : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            QuitGame();
+        }
+
         var totalCount = PlayerMissile.MissileCount + EnemyMissile.MissileCount + ExplosionAnimation.ExplosionCount;
         if (ScoreChanged)
             ShowScore();
@@ -154,4 +155,11 @@ public class MissileCommand : MonoBehaviour {
         }
     }
 
+    void QuitGame() {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
+    }
 }

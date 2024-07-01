@@ -606,10 +606,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 9e97825e-0096-40f5-b3ea-33711b6ec405
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: arcade-missle-command
+  organizationId: oieieio
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
